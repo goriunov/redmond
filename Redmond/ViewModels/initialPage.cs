@@ -10,10 +10,12 @@ namespace Redmond
 		Button navigationButton;
 		public void ComonStyles (){
 			BackgroundColor = Color.FromHex("#1259CD");
-			NavigationPage.SetHasNavigationBar(this, false);
+
 		}
+
 		public initialPage()
 		{
+			this.Title = "Welcome";
 			Device.OnPlatform(
 				iOS:()=>{
 				ComonStyles();
@@ -49,8 +51,8 @@ namespace Redmond
 
 			Content = new StackLayout
 			{
-				Padding = new Thickness(0 , 100 ,0 ,0),
-				Spacing = 40,
+				Padding = new Thickness(0 , 70 ,0 ,0),
+				Spacing = 30,
 				Children = {
 					new Label{
 						HorizontalTextAlignment = TextAlignment.Center,
@@ -62,13 +64,20 @@ namespace Redmond
 					new Label{
 						HorizontalTextAlignment = TextAlignment.Center,
 						FontSize= 15,
-						Text = "Order your faivorite food from your mobile",
+						Text = "Order your favourite food from your mobile at any time",
 						TextColor = Color.White,
 						FontAttributes = FontAttributes.Italic
 					},
 					mainContent
 				}
 			};
+
+			navigationButton.Clicked += NavigationButton_Clicked;
+		}
+
+		async void  NavigationButton_Clicked(object sender, EventArgs e)
+		{
+			await Navigation.PushAsync(new navigationControll());
 		}
 	}
 }
