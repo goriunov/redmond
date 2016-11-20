@@ -8,7 +8,7 @@ namespace Redmond
 	{
 		public navigationControll()
 		{
-			var navigationPage = new NavigationPage( new ordersList());
+			var navigationPage = new NavigationPage( new ordersListPage());
 			navigationPage.Title = "Menu";
 
 			Children.Add(navigationPage);

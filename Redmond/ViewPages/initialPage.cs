@@ -8,26 +8,17 @@ namespace Redmond
 	{
 
 		Button navigationButton;
-		public void ComonStyles (){
-			BackgroundColor = Color.FromHex("#1259CD");
-
-		}
-
 		public initialPage()
 		{
+			BackgroundColor = Color.FromHex("#1259CD");
 			this.Title = "Welcome";
 			Device.OnPlatform(
 				iOS:()=>{
-				ComonStyles();
 				Padding = new Thickness(10,20,10,10);
 				},
 				Android: () =>{
-				ComonStyles();
 				Padding = new Thickness(10, 0 , 10 ,10);
-				},
-				Default: () =>{
-				ComonStyles();
-			 	}
+				}
 			);
 
 			navigationButton = new Button{
@@ -77,7 +68,14 @@ namespace Redmond
 
 		async void  NavigationButton_Clicked(object sender, EventArgs e)
 		{
-			await Navigation.PushAsync(new navigationControll());
+			//FoodItem oneFood = new FoodItem {
+			//	Text = "New Added stuff",
+			//	Detail = "Some detail",
+			//	ImageSource = "http://s3.amazonaws.com/etntmedia/media/images/ext/446341906/fast-food-burger-fries.jpg",
+			//	description = "Super Testy food with cool stuff"
+			//};
+			//await AzureManager.AzureManagerInstance.AddFood(oneFood);
+			await Navigation.PushAsync(new ordersListPage());
 		}
 	}
 }
