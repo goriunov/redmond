@@ -23,6 +23,11 @@ namespace Redmond
 		StackLayout  mainStack;
 		public ordersListPage()
 		{
+			ToolbarItems.Add( new ToolbarItem("Box" ,"box.png", async () => {
+				await Navigation.PushAsync(new boxPage());
+			}));
+
+
 			Padding = new Thickness(5 ,5 , 0, 0);
 			this.Title = "Menu";
 			listCollection = new List<FoodItem>(){

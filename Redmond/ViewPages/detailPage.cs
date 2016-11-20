@@ -1,29 +1,30 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace Redmond
 {
 	public class detailPage : ContentPage
 	{
+		FoodItem toBoxAdd;
 		
 		public detailPage(FoodItem singleFood)
 		{
-			Padding = new Thickness(7 ,7 ,7 ,7);
+			toBoxAdd = singleFood;
 			Title = singleFood.Text;
 			NavigationPage.SetHasBackButton(this, false);
 
 			Button buttonBack = new Button {
 				Text= "Back",
-				Margin = new Thickness(0 ,0 , 5 , 0),
+				Margin = new Thickness(5 ,0 , 5 , 5),
 				BackgroundColor = Color.FromHex("#1259CD"),
 				TextColor = Color.White,
 				HorizontalOptions = LayoutOptions.FillAndExpand
 			};
 			Button buttonOrder = new Button {
-				Text= "Order",
+				Text= "Add",
 				BackgroundColor = Color.FromHex("#1259CD"),
-				Margin = new Thickness(5, 0, 0 , 0),
+				Margin = new Thickness(5, 0, 5 , 5),
 				TextColor = Color.White,
 				HorizontalOptions = LayoutOptions.FillAndExpand
 			};
@@ -41,32 +42,34 @@ namespace Redmond
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				Spacing = 20,
 				Children = {
-					new Image {
-						Margin = new Thickness(0, 5 ,0 ,0),
-						Source = ImageSource.FromUri(new Uri(singleFood.ImageSource)),
-						HeightRequest = 200,
-						WidthRequest = 200
+					new StackLayout{
+						HorizontalOptions = LayoutOptions.FillAndExpand,
+						Children= {	
+							new Image {
+								HeightRequest = 200,
+								Source = ImageSource.FromUri(new Uri(singleFood.ImageSource)),
+								Aspect = Aspect.AspectFill
+							}
+						}
 					},
 					new StackLayout {
-						Orientation = StackOrientation.Horizontal,
-						HorizontalOptions = LayoutOptions.Center,
+						Padding = new Thickness( 10, 0, 10 ,0),
 						Children = {
 							new Label {
-								HorizontalTextAlignment = TextAlignment.Center,
 								FontSize= 20,
 								FontAttributes = FontAttributes.Bold,
 								Text = singleFood.Text
 							},
 							new Label {
-								Margin= new Thickness(0, 5 ,0,0),
 								TextColor= Color.Gray,
-								FontSize= 15,
+								FontSize= 12,
 								Text = "Price: $" + singleFood.Price
 							}
 
 						}
 					},
 					new Label {
+						Margin = new Thickness(10 ,0 ,10 ,0),
 						FontSize= 15,
 						Text = singleFood.description
 					}
@@ -83,6 +86,7 @@ namespace Redmond
 
 			buttonBack.Clicked += ButtonBack_Clicked;
 			buttonOrder.Clicked += ButtonOrder_Clicked;
+
 		}
 
 		async void ButtonBack_Clicked(object sender, EventArgs e)
@@ -90,9 +94,16 @@ namespace Redmond
 			await Navigation.PopAsync();
 		}
 
-		async void ButtonOrder_Clicked(object sender, EventArgs e)
+		public async void ButtonOrder_Clicked(object sender, EventArgs e)
 		{
-			await Navigation.PushModalAsync(new modelOrderPage());
+			List<FoodItem> itemsArray = new List<FoodItem>();
+			if(Application.Current.Properties.ContainsKey("OrderArray")){
+				itemsArray = Application.Current.Properties ["OrderArray"] as List<FoodItem>;
+			}
+			itemsArray.Add(toBoxAdd);
+
+			Application.Current.Properties ["OrderArray"] = itemsArray;
+			await DisplayAlert("Success" , "Item added to orders box successfuly" , "Ok");
 		}
 	}
 }

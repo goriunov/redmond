@@ -14,6 +14,7 @@ namespace Redmond
 				Text = "Go back"
 			};
 
+
 			Content = new StackLayout
 			{
 				Children = {
