@@ -32,10 +32,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewPages\initialPage.cs" />
     <Compile Include="ViewPages\ordersListPage.cs" />
-    <Compile Include="ViewPages\navigationControll.cs" />
     <Compile Include="DataModels\FoodItem.cs" />
     <Compile Include="DbConnection\AzureMenager.cs" />
     <Compile Include="ViewPages\detailPage.cs" />
+    <Compile Include="ViewPages\modelOrderPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

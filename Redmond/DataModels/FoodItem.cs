@@ -20,5 +20,11 @@ namespace Redmond
 
 		[JsonProperty(PropertyName = "Text")]
 		public string Text {get; set;}
+
+		[JsonProperty(PropertyName = "Type")]
+		public string Type {get; set;}
+
+		[JsonProperty(PropertyName = "Price")]
+		public string Price {get; set;}
 	}
 }

@@ -39,12 +39,10 @@ namespace Redmond
 				}
 
 			};
-
-			Content = new StackLayout
-			{
-				Padding = new Thickness(0 , 70 ,0 ,0),
+			StackLayout lablesContent = new StackLayout{
+				VerticalOptions = LayoutOptions.CenterAndExpand,
 				Spacing = 30,
-				Children = {
+				Children ={
 					new Label{
 						HorizontalTextAlignment = TextAlignment.Center,
 						FontSize = 35,
@@ -58,7 +56,14 @@ namespace Redmond
 						Text = "Order your favourite food from your mobile at any time",
 						TextColor = Color.White,
 						FontAttributes = FontAttributes.Italic
-					},
+					}
+				} 
+			};
+
+			Content = new StackLayout
+			{
+				Children = {
+					lablesContent,
 					mainContent
 				}
 			};
@@ -69,10 +74,12 @@ namespace Redmond
 		async void  NavigationButton_Clicked(object sender, EventArgs e)
 		{
 			//FoodItem oneFood = new FoodItem {
-			//	Text = "New Added stuff",
-			//	Detail = "Some detail",
-			//	ImageSource = "http://s3.amazonaws.com/etntmedia/media/images/ext/446341906/fast-food-burger-fries.jpg",
-			//	description = "Super Testy food with cool stuff"
+			//	Text = "Ramen",
+			//	Detail = "Chinese-style wheat noodles in a meat",
+			//	ImageSource = "http://www.japan-talk.com/images/jt/header/tonkotsu-ramen-78.jpg",
+			//	description = "Hot Chinese-style wheat noodles in a meat, fish, miso or soy sauce broth. It's an inexpensive, filling, easy to find snack. Despite the fact that ramen is cheap, there's a big difference in quality from one shop to the next. A shop that earns a reputation amongst ramen aficionados will regularly have long lines while a shop just next door may be empty.",
+			//	Type = "Japanese Food",
+			//	Price = "35"
 			//};
 			//await AzureManager.AzureManagerInstance.AddFood(oneFood);
 			await Navigation.PushAsync(new ordersListPage());

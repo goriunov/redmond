@@ -47,16 +47,30 @@ namespace Redmond
 						HeightRequest = 200,
 						WidthRequest = 200
 					},
-					new Label {
-						HorizontalTextAlignment = TextAlignment.Center,
-						FontSize= 20,
-						FontAttributes = FontAttributes.Bold,
-						Text = singleFood.Text
+					new StackLayout {
+						Orientation = StackOrientation.Horizontal,
+						HorizontalOptions = LayoutOptions.Center,
+						Children = {
+							new Label {
+								HorizontalTextAlignment = TextAlignment.Center,
+								FontSize= 20,
+								FontAttributes = FontAttributes.Bold,
+								Text = singleFood.Text
+							},
+							new Label {
+								Margin= new Thickness(0, 5 ,0,0),
+								TextColor= Color.Gray,
+								FontSize= 15,
+								Text = "Price: $" + singleFood.Price
+							}
+
+						}
 					},
 					new Label {
 						FontSize= 15,
 						Text = singleFood.description
 					}
+
 				}
 
 			};
@@ -68,11 +82,17 @@ namespace Redmond
 			};
 
 			buttonBack.Clicked += ButtonBack_Clicked;
+			buttonOrder.Clicked += ButtonOrder_Clicked;
 		}
 
 		async void ButtonBack_Clicked(object sender, EventArgs e)
 		{
 			await Navigation.PopAsync();
+		}
+
+		async void ButtonOrder_Clicked(object sender, EventArgs e)
+		{
+			await Navigation.PushModalAsync(new modelOrderPage());
 		}
 	}
 }
