@@ -11,7 +11,7 @@ namespace Redmond
 		public boxPage()
 		{
 			Title = "Orders Box";
-			Padding = new Thickness(0  , 10 , 0, 0);
+			Padding = new Thickness(5  , 5 , 5, 5);
 			orders = new List<FoodItem>();
 
 			if(Application.Current.Properties.ContainsKey("OrderArray")){
@@ -29,15 +29,21 @@ namespace Redmond
 					image.SetBinding(Image.SourceProperty , "ImageSource");
 
 					Label lb = new Label {
-						FontSize = 18
+						FontSize = 15
 					};
 					lb.SetBinding(Label.TextProperty , "Text");
 
 					Label detail = new Label {
-						FontSize = 11,
+						FontSize = 8,
 						TextColor = Color.Gray
 					};
 					detail.SetBinding(Label.TextProperty , "Detail");
+
+					Label price = new Label {
+						FontSize = 15,
+						TextColor = Color.Gray
+					};
+					price.SetBinding(Label.TextProperty , "Price");
 
 					ViewCell viewCell = new ViewCell{
 						View = new StackLayout {
@@ -55,6 +61,19 @@ namespace Redmond
 									Children ={
 										lb  , detail
 									}
+								},
+								new StackLayout {
+									Orientation = StackOrientation.Horizontal,
+									VerticalOptions = LayoutOptions.Center,
+									Children ={
+										new Label{
+											HorizontalTextAlignment = TextAlignment.End,
+											Text = "$",
+											TextColor = Color.Gray,
+											FontSize = 15
+										},
+										price
+									}
 								}
 							}
 						}
@@ -71,12 +90,38 @@ namespace Redmond
 				((ListView)sender).SelectedItem = null;
 			};
 
+
+			Button makeOrder = new Button {
+				Text="Order now",
+				TextColor = Color.White,
+				BackgroundColor = Color.FromHex("#1259CD")
+			};
+
 			Content = new StackLayout
 			{
+				
 				Children = {
-					orderedItems
+					new StackLayout {
+						VerticalOptions = LayoutOptions.FillAndExpand,
+						Children = {
+							orderedItems
+						}
+					},
+					new StackLayout {
+						Children ={
+							makeOrder
+						}
+					}
+
 				}
 			};
+
+			makeOrder.Clicked += MakeOrder_Clicked;
+		}
+
+		async void MakeOrder_Clicked(object sender, EventArgs e)
+		{
+			await Navigation.PushModalAsync(new modelOrderPage());
 		}
 
 		void DeleteAction_Clicked(object sender, EventArgs e)

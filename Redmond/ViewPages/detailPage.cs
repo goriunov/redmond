@@ -7,12 +7,11 @@ namespace Redmond
 	public class detailPage : ContentPage
 	{
 		FoodItem toBoxAdd;
-		
 		public detailPage(FoodItem singleFood)
 		{
-			toBoxAdd = singleFood;
 			Title = singleFood.Text;
 			NavigationPage.SetHasBackButton(this, false);
+			toBoxAdd = singleFood;
 
 			Button buttonBack = new Button {
 				Text= "Back",
@@ -83,19 +82,15 @@ namespace Redmond
 					information,actions
 				}
 			};
-
 			buttonBack.Clicked += ButtonBack_Clicked;
 			buttonOrder.Clicked += ButtonOrder_Clicked;
-
 		}
 
-		async void ButtonBack_Clicked(object sender, EventArgs e)
-		{
+		async void ButtonBack_Clicked(object sender, EventArgs e){
 			await Navigation.PopAsync();
 		}
 
-		public async void ButtonOrder_Clicked(object sender, EventArgs e)
-		{
+		async void ButtonOrder_Clicked(object sender, EventArgs e){
 			List<FoodItem> itemsArray = new List<FoodItem>();
 			if(Application.Current.Properties.ContainsKey("OrderArray")){
 				itemsArray = Application.Current.Properties ["OrderArray"] as List<FoodItem>;
@@ -103,7 +98,7 @@ namespace Redmond
 			itemsArray.Add(toBoxAdd);
 
 			Application.Current.Properties ["OrderArray"] = itemsArray;
-			await DisplayAlert("Success" , "Item added to orders box successfuly" , "Ok");
+			await DisplayAlert("Success" , toBoxAdd.Text + " added to orders box successfuly" , "Ok");
 		}
 	}
 }

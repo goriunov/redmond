@@ -15,6 +15,7 @@ namespace Redmond.iOS
 
 			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			global::Xamarin.Forms.Forms.Init();
+			Xamarin.FormsMaps.Init();
 
 			LoadApplication(new App());
 

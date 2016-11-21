@@ -9,32 +9,27 @@ namespace Redmond
 {
 	public class ordersListPage : ContentPage
 	{
-
 		public class Groups : ObservableCollection<FoodItem> {
 			public string longName{get; set;}
 			public string shortMame{get; set;}
 		}
 		private ObservableCollection<Groups> grouped { get; set; }
 
-
-		List<FoodItem> listCollection;
+		List<FoodItem> listCollection = new List<FoodItem>();
 		ListView foodList;
 		ActivityIndicator whileLoading;
 		StackLayout  mainStack;
 		public ordersListPage()
 		{
+			Title = "Menu";
+			Padding = new Thickness(5 ,5 , 0, 0);
 			ToolbarItems.Add( new ToolbarItem("Box" ,"box.png", async () => {
 				await Navigation.PushAsync(new boxPage());
 			}));
 
-
-			Padding = new Thickness(5 ,5 , 0, 0);
-			this.Title = "Menu";
-			listCollection = new List<FoodItem>(){
-			};
 			getItems();
 
-			foodList= new ListView {
+			foodList = new ListView {
 				SeparatorVisibility = SeparatorVisibility.None,
 				IsGroupingEnabled = true,
 				ItemTemplate = new DataTemplate(()=>{
@@ -84,13 +79,13 @@ namespace Redmond
 			whileLoading.SetBinding(ActivityIndicator.IsRunningProperty , "isRunning");
 			whileLoading.SetBinding(ActivityIndicator.IsVisibleProperty , "isRunning");
 			whileLoading.BindingContext = new {isRunning = true};
+
 			mainStack = new StackLayout
 			{
 				Children = {
 					whileLoading, foodList
 				}
 			};
-
 			Content = mainStack;
 			foodList.ItemTapped += FoodList_ItemTapped;
 			foodList.ItemSelected += FoodList_ItemSelected;
@@ -145,7 +140,6 @@ namespace Redmond
 			foodList.GroupShortNameBinding = new Binding ("shortName");
 
 			whileLoading.BindingContext = new {isRunning = false};
-
 		}
 
 		//async void  repplacement (){
