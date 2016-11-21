@@ -142,55 +142,6 @@ namespace Redmond
 			whileLoading.BindingContext = new {isRunning = false};
 		}
 
-		//async void  repplacement (){
-		//	for(int i=0; i<listCollection.Count; i++){
-		//		if(i < 3){
-		//			FoodItem oneFood = new FoodItem {
-		//				Text = listCollection[i].Text,
-		//				Detail = listCollection[i].Detail,
-		//				ImageSource = listCollection[i].ImageSource,
-		//				description = listCollection[i].description,
-		//				Type = "American Food",
-		//				Price = listCollection[i].Price
-		//			};
-		//			await AzureManager.AzureManagerInstance.AddFood(oneFood);
-		//		}
-		//		if(i < 6 && i > 2){
-		//			FoodItem oneFood = new FoodItem {
-		//				Text = listCollection[i].Text,
-		//				Detail = listCollection[i].Detail,
-		//				ImageSource = listCollection[i].ImageSource,
-		//				description = listCollection[i].description,
-		//				Type = "Asian Food",
-		//				Price = listCollection[i].Price
-		//			};
-		//			await AzureManager.AzureManagerInstance.AddFood(oneFood);
-		//		}
-		//		if(i < 9 && i > 5){
-		//			FoodItem oneFood = new FoodItem {
-		//				Text = listCollection[i].Text,
-		//				Detail = listCollection[i].Detail,
-		//				ImageSource = listCollection[i].ImageSource,
-		//				description = listCollection[i].description,
-		//				Type = "Japanese Food",
-		//				Price = listCollection[i].Price
-		//			};
-		//			await AzureManager.AzureManagerInstance.AddFood(oneFood);
-		//		}
-		//		if(i < 12 && i > 8){
-		//			FoodItem oneFood = new FoodItem {
-		//				Text = listCollection[i].Text,
-		//				Detail = listCollection[i].Detail,
-		//				ImageSource = listCollection[i].ImageSource,
-		//				description = listCollection[i].description,
-		//				Type = "Drinks",
-		//				Price = listCollection[i].Price
-		//			};
-		//			await AzureManager.AzureManagerInstance.AddFood(oneFood);
-		//		}
-		//	}
-		//}
-
 		void FoodList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
 			((ListView)sender).SelectedItem = null;

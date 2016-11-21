@@ -42,13 +42,12 @@ namespace Redmond
 			var slider = new Slider (10, 18, 1);
 			slider.Value = 14;
 			slider.ValueChanged += (sender, e) => {
-				var zoomLevel = e.NewValue; // between 1 and 18
+				var zoomLevel = e.NewValue; 
 				var latlongdegrees = 360 / (Math.Pow(2, zoomLevel));
 				map.MoveToRegion(new MapSpan (map.VisibleRegion.Center, latlongdegrees, latlongdegrees));
 			};
 
 			map.Pins.Add(pin);
-
 
 			countedDistance = new Label{
 				Text = "Aproximatly distance:"
@@ -58,47 +57,48 @@ namespace Redmond
 				Text = "Make order for $" + allPrice 
 			};
 
-			Content = new StackLayout
-			{
-				Spacing = 10,
+			Entry hours = new Entry {
+				Placeholder = "Hours",
+				Keyboard = Keyboard.Numeric
+			};
+			Entry minuts = new Entry{
+				Placeholder = "Minuts",
+				Keyboard = Keyboard.Numeric
+			};
+			Entry date = new Entry{
+				Placeholder = "Date",
+				Keyboard = Keyboard.Numeric
+			};
+
+			StackLayout mainDisplay = new StackLayout{
+				VerticalOptions = LayoutOptions.FillAndExpand,
 				Children = {
 					new Label { 
 						HorizontalTextAlignment = TextAlignment.Center,
 						FontSize = 20,
 						Text = "Order Imformation" 
 					},
-					new StackLayout {
-						Children = {
-							new Label{
-								Text = "First Name:"
-							},
-							new Entry {
-								WidthRequest = 180,
-								Placeholder ="Write your first name"
-							}
-						}
+					new Label{
+						Text = "First Name:"
 					},
-					new StackLayout {
-						Children = {
-							new Label{
-								Text = "Family Name:"
-							},
-							new Entry {
-								WidthRequest = 180,
-								Placeholder ="Write your family name"
-							}
-						}
+					new Entry {
+						WidthRequest = 180,
+						Placeholder ="Write your first name"
 					},
-					new StackLayout {
-						Children = {
-							new Label{
-								Text = "Email:"
-							},
-							new Entry {
-								WidthRequest = 180,
-								Placeholder ="Write your email"
-							}
-						}
+				
+					new Label{
+						Text = "Family Name:"
+					},
+					new Entry {
+						WidthRequest = 180,
+						Placeholder ="Write your family name"
+					},
+					new Label{
+						Text = "Email:"
+					},
+					new Entry {
+						WidthRequest = 180,
+						Placeholder ="Write your email"
 					},
 					new StackLayout {
 						HeightRequest = 200,
@@ -106,10 +106,66 @@ namespace Redmond
 							map, slider, countedDistance
 						}
 					},
-
-					buttonBuy
+					new StackLayout {
+						Orientation = StackOrientation.Horizontal,
+						Children = {
+							new Label {
+								Margin = new Thickness(0,5,0,0),
+								FontSize = 18,
+								Text = "Order on:"
+							},
+							new StackLayout{
+								HorizontalOptions = LayoutOptions.EndAndExpand,
+								VerticalOptions = LayoutOptions.Center,
+								Orientation = StackOrientation.Horizontal,
+								Children = {
+									date,
+									new Label {
+										Text=":"
+									},
+									hours,
+									new Label {
+										Text=":"
+									},
+									minuts
+								}
+							},
+						}
+					},
 				}
 			};
+
+			Content = new StackLayout {
+				Children = {
+					mainDisplay, buttonBuy
+				}	
+			};
+
+			minuts.TextChanged +=(sender, e) => {
+				Entry entry = ((Entry)sender);
+				var val = entry.Text;
+				if(val.Length > 2){
+					val = val.Remove(val.Length -1);
+					entry.Text = val;
+				}
+			};
+			date.TextChanged += (sender, e) => {
+				Entry entry = ((Entry)sender);
+				var val = entry.Text;
+				if(val.Length > 2){
+					val = val.Remove(val.Length -1);
+					entry.Text = val;
+				}
+			};
+			hours.TextChanged += (sender, e) => {
+				Entry entry = ((Entry)sender);
+				var val = entry.Text;
+				if(val.Length > 2){
+					val = val.Remove(val.Length -1);
+					entry.Text = val;
+				}
+			};
+
 
 			buttonBuy.Clicked += ButtonBuy_Clicked;
 		}
@@ -137,7 +193,7 @@ namespace Redmond
 			} else if (unit == 'N') {
 				dist = dist * 0.8684;
 			}
-			return (dist);
+			return (dist + 0.3);
 		}
 
 		private double deg2rad(double deg) {
