@@ -6,7 +6,7 @@ namespace Redmond
 {
 	public class boxPage : ContentPage
 	{
-		List <FoodItem> orders ;
+		List <FoodItem> orders = null;
 		ListView orderedItems;
 		public boxPage()
 		{
@@ -16,7 +16,8 @@ namespace Redmond
 
 			if(Application.Current.Properties.ContainsKey("OrderArray")){
 				orders = Application.Current.Properties["OrderArray"] as List<FoodItem>;
-			}
+			};
+
 			orderedItems = new ListView {
 				SeparatorVisibility = SeparatorVisibility.None,
 				ItemsSource = orders,
@@ -79,6 +80,7 @@ namespace Redmond
 						}
 					};
 
+
 					var deleteAction = new MenuItem { Text = "Delete", IsDestructive = true }; 
 					deleteAction.SetBinding (MenuItem.CommandParameterProperty, new Binding ("."));
 					deleteAction.Clicked += DeleteAction_Clicked;
@@ -96,6 +98,7 @@ namespace Redmond
 				TextColor = Color.White,
 				BackgroundColor = Color.FromHex("#1259CD")
 			};
+			
 
 			Content = new StackLayout
 			{
@@ -115,13 +118,16 @@ namespace Redmond
 
 				}
 			};
-
-			makeOrder.Clicked += MakeOrder_Clicked;
+				makeOrder.Clicked += MakeOrder_Clicked;
+			
 		}
 
 		async void MakeOrder_Clicked(object sender, EventArgs e)
 		{
-			await Navigation.PushModalAsync(new modelOrderPage());
+			if(orders.ToArray().Length > 0){
+				await Navigation.PushModalAsync(new modelOrderPage());
+				await Navigation.PopAsync();
+			}
 		}
 
 		void DeleteAction_Clicked(object sender, EventArgs e)

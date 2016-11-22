@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Plugin.Geolocator;
@@ -11,6 +12,14 @@ namespace Redmond
 		Map map ;
 		Label countedDistance;
 		List<FoodItem> orders = new List<FoodItem>();
+		Entry phoneNumber;
+		Entry firstName;
+		Entry familyName;
+		Entry email;
+		DatePicker date;
+		TimePicker time;
+		int allPrice = 0;
+		string allItemsNames = "";
 
 		public modelOrderPage()
 		{
@@ -21,9 +30,10 @@ namespace Redmond
 				orders = Application.Current.Properties["OrderArray"] as List<FoodItem>;
 			};
 
-			int allPrice = 0;
+
 			for(int i=0 ; i < orders.Count ; i ++){
 				allPrice += Convert.ToInt32(orders[i].Price);
+				allItemsNames = allItemsNames + orders[i].Text + ","; 
 			};
 
 			map = new Map(MapSpan.FromCenterAndRadius (new Position (-36.857461, 174.766412){}, Distance.FromMiles (1.2))){
@@ -40,7 +50,7 @@ namespace Redmond
 			};
 
 			var slider = new Slider (10, 18, 1);
-			slider.Value = 14;
+			slider.Value = 12;
 			slider.ValueChanged += (sender, e) => {
 				var zoomLevel = e.NewValue; 
 				var latlongdegrees = 360 / (Math.Pow(2, zoomLevel));
@@ -50,24 +60,34 @@ namespace Redmond
 			map.Pins.Add(pin);
 
 			countedDistance = new Label{
-				Text = "Aproximatly distance:"
+				HorizontalTextAlignment = TextAlignment.Center
 			};
 
 			Button buttonBuy = new Button {
 				Text = "Make order for $" + allPrice 
 			};
-
-			Entry hours = new Entry {
-				Placeholder = "Hours",
+			phoneNumber = new Entry {
+				WidthRequest = 180,
+				Placeholder ="88 888 888 888",
 				Keyboard = Keyboard.Numeric
 			};
-			Entry minuts = new Entry{
-				Placeholder = "Minuts",
-				Keyboard = Keyboard.Numeric
+			firstName = new Entry {
+				WidthRequest = 180,
+				Placeholder ="Tim"
 			};
-			Entry date = new Entry{
-				Placeholder = "Date",
-				Keyboard = Keyboard.Numeric
+			familyName = new Entry {
+				WidthRequest = 180,
+				Placeholder ="Loren"
+			};
+			email = new Entry {
+				Placeholder = "supermail@mail.com",
+				Keyboard = Keyboard.Email
+			};
+			date = new DatePicker{
+				Format = "MMM dd"
+			};
+			time = new TimePicker{
+				Format = "HH:mm"
 			};
 
 			StackLayout mainDisplay = new StackLayout{
@@ -76,111 +96,87 @@ namespace Redmond
 					new Label { 
 						HorizontalTextAlignment = TextAlignment.Center,
 						FontSize = 20,
-						Text = "Order Imformation" 
+						Text = "Order Details" 
 					},
 					new Label{
 						Text = "First Name:"
 					},
-					new Entry {
-						WidthRequest = 180,
-						Placeholder ="Write your first name"
-					},
-				
+					firstName,
 					new Label{
 						Text = "Family Name:"
 					},
-					new Entry {
-						WidthRequest = 180,
-						Placeholder ="Write your family name"
-					},
+					familyName,
 					new Label{
 						Text = "Email:"
 					},
-					new Entry {
-						WidthRequest = 180,
-						Placeholder ="Write your email"
+					email,
+					new Label{
+						Text = "Phone number:"
 					},
+					phoneNumber,
 					new StackLayout {
-						HeightRequest = 200,
+						HeightRequest = 250,
 						Children = {
-							map, slider, countedDistance
+							countedDistance ,map, slider
 						}
 					},
-					new StackLayout {
+					new Label {
+						HorizontalTextAlignment = TextAlignment.Center,
+						Margin = new Thickness(0,10,0,0),
+						FontSize = 20,
+						Text = "Order on"
+					},
+					new StackLayout{
+						HorizontalOptions = LayoutOptions.Center,
+						VerticalOptions = LayoutOptions.Center,
 						Orientation = StackOrientation.Horizontal,
 						Children = {
-							new Label {
-								Margin = new Thickness(0,5,0,0),
-								FontSize = 18,
-								Text = "Order on:"
-							},
-							new StackLayout{
-								HorizontalOptions = LayoutOptions.EndAndExpand,
-								VerticalOptions = LayoutOptions.Center,
-								Orientation = StackOrientation.Horizontal,
-								Children = {
-									date,
-									new Label {
-										Text=":"
-									},
-									hours,
-									new Label {
-										Text=":"
-									},
-									minuts
-								}
-							},
+							date,
+							time
 						}
 					},
 				}
 			};
 
-			Content = new StackLayout {
-				Children = {
-					mainDisplay, buttonBuy
+			Content = new ScrollView {
+				Content =  new StackLayout{
+					Children = {
+						mainDisplay, buttonBuy
+					}
 				}	
 			};
-
-			minuts.TextChanged +=(sender, e) => {
-				Entry entry = ((Entry)sender);
-				var val = entry.Text;
-				if(val.Length > 2){
-					val = val.Remove(val.Length -1);
-					entry.Text = val;
-				}
-			};
-			date.TextChanged += (sender, e) => {
-				Entry entry = ((Entry)sender);
-				var val = entry.Text;
-				if(val.Length > 2){
-					val = val.Remove(val.Length -1);
-					entry.Text = val;
-				}
-			};
-			hours.TextChanged += (sender, e) => {
-				Entry entry = ((Entry)sender);
-				var val = entry.Text;
-				if(val.Length > 2){
-					val = val.Remove(val.Length -1);
-					entry.Text = val;
-				}
-			};
-
-
 			buttonBuy.Clicked += ButtonBuy_Clicked;
 		}
 
 
 
 		async void ButtonBuy_Clicked(object sender, EventArgs e){
+
+
+			orderDetails details = new orderDetails{
+				firstName = firstName.Text,
+				familyName = familyName.Text,
+				email = email.Text,
+				phoneNumber = phoneNumber.Text,
+				date = date.Date.Day.ToString() + "/"+  date.Date.Month.ToString(),
+				time = time.Time.Hours.ToString() + ":" + time.Time.Minutes.ToString(),
+				order = allItemsNames,
+				price = allPrice.ToString()
+			};
+			await AzureManager.AzureManagerInstance.makeOrder(details);
+			await DisplayAlert("Success" , "Your order send to the shop" , "Ok");
+			Application.Current.Properties.Remove("OrderArray");
 			await Navigation.PopModalAsync();
 		}
 
 		async void GetLocation() {
-			var position = await CrossGeolocator.Current.GetPositionAsync(timeoutMilliseconds:10000);
-			countedDistance.Text = countedDistance.Text+ " " + distance(-36.857461 , 174.766412 ,position.Latitude ,position.Longitude , 'K').ToString().Substring(0,3) + " km";
+			var position = await CrossGeolocator.Current.GetPositionAsync(timeoutMilliseconds: 5000);
+			Device.StartTimer(TimeSpan.FromSeconds(3), ()=>{
+				GetLocation();
+				return false;
+			});
+			countedDistance.Text = "Aproximatly distance"+ " " + distance(-36.857461 , 174.766412 ,position.Latitude ,position.Longitude , 'K').ToString().Substring(0,3) + " km";
 		}
-
 
 		private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
 			double theta = lon1 - lon2;

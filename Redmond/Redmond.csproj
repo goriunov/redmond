@@ -37,6 +37,7 @@
     <Compile Include="ViewPages\detailPage.cs" />
     <Compile Include="ViewPages\modelOrderPage.cs" />
     <Compile Include="ViewPages\boxPage.cs" />
+    <Compile Include="DataModels\orderDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
