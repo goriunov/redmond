@@ -4,10 +4,10 @@ using Xamarin.Forms;
 
 namespace Redmond
 {
-	public class detailPage : ContentPage
+	public class SingleFoodItemPage : ContentPage
 	{
 		FoodItem toBoxAdd;
-		public detailPage(FoodItem singleFood)
+		public SingleFoodItemPage(FoodItem singleFood)
 		{
 			Title = singleFood.Text;
 			NavigationPage.SetHasBackButton(this, false);

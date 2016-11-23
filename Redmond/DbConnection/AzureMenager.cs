@@ -11,13 +11,13 @@ namespace Redmond
 		private static AzureManager instance;
 
 		private IMobileServiceTable<FoodItem> foodItem;
-		private IMobileServiceTable<orderDetails> orderdetails;
+		private IMobileServiceTable<OrderDetails> orderdetails;
 
 		private AzureManager()
 		{
 			this.client = new MobileServiceClient("http://msa-food.azurewebsites.net/");
 			this.foodItem = this.client.GetTable<FoodItem>();
-			this.orderdetails = this.client.GetTable<orderDetails>();
+			this.orderdetails = this.client.GetTable<OrderDetails>();
 		}
 
 		public MobileServiceClient AzureClient
@@ -45,7 +45,7 @@ namespace Redmond
 		public async Task AddFood( FoodItem food) {
 			await this.foodItem.InsertAsync(food);
 		}
-		public async Task makeOrder(orderDetails details){
+		public async Task makeOrder(OrderDetails details){
 			await this.orderdetails.InsertAsync(details);
 		}
 	}

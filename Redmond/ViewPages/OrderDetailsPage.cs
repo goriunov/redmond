@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Plugin.Geolocator;
 
 namespace Redmond
 {
-	public class modelOrderPage : ContentPage
+	public class OrderDetailsPage : ContentPage
 	{
 		Map map ;
 		Label countedDistance;
@@ -21,7 +20,7 @@ namespace Redmond
 		int allPrice = 0;
 		string allItemsNames = "";
 
-		public modelOrderPage()
+		public OrderDetailsPage()
 		{
 			
 			Padding = new Thickness(5 ,20 ,5 ,5);
@@ -29,7 +28,6 @@ namespace Redmond
 			if(Application.Current.Properties.ContainsKey("OrderArray")){
 				orders = Application.Current.Properties["OrderArray"] as List<FoodItem>;
 			};
-
 
 			for(int i=0 ; i < orders.Count ; i ++){
 				allPrice += Convert.ToInt32(orders[i].Price);
@@ -64,7 +62,10 @@ namespace Redmond
 			};
 
 			Button buttonBuy = new Button {
-				Text = "Make order for $" + allPrice 
+				Text = "Make order for $" + allPrice
+			};
+			Button buttonBack = new Button {
+				Text = "Back"
 			};
 			phoneNumber = new Entry {
 				WidthRequest = 180,
@@ -87,11 +88,10 @@ namespace Redmond
 				Format = "MMM dd"
 			};
 			time = new TimePicker{
-				Format = "HH:mm"
+				Format = "HH:mm",
 			};
 
 			StackLayout mainDisplay = new StackLayout{
-				VerticalOptions = LayoutOptions.FillAndExpand,
 				Children = {
 					new Label { 
 						HorizontalTextAlignment = TextAlignment.Center,
@@ -128,32 +128,35 @@ namespace Redmond
 					},
 					new StackLayout{
 						HorizontalOptions = LayoutOptions.Center,
-						VerticalOptions = LayoutOptions.Center,
 						Orientation = StackOrientation.Horizontal,
 						Children = {
 							date,
 							time
-						}
+						},
 					},
+					buttonBack
 				}
 			};
 
 			Content = new ScrollView {
 				Content =  new StackLayout{
 					Children = {
-						mainDisplay, buttonBuy
+						mainDisplay,buttonBuy 
 					}
 				}	
 			};
 			buttonBuy.Clicked += ButtonBuy_Clicked;
+			buttonBack.Clicked += ButtonBack_Clicked;
+		}
+
+		async void ButtonBack_Clicked(object sender, EventArgs e)
+		{
+			await Navigation.PopModalAsync();
 		}
 
 
-
 		async void ButtonBuy_Clicked(object sender, EventArgs e){
-
-
-			orderDetails details = new orderDetails{
+			OrderDetails details = new OrderDetails{
 				firstName = firstName.Text,
 				familyName = familyName.Text,
 				email = email.Text,
@@ -163,10 +166,12 @@ namespace Redmond
 				order = allItemsNames,
 				price = allPrice.ToString()
 			};
-			await AzureManager.AzureManagerInstance.makeOrder(details);
-			await DisplayAlert("Success" , "Your order send to the shop" , "Ok");
-			Application.Current.Properties.Remove("OrderArray");
-			await Navigation.PopModalAsync();
+			if(!String.IsNullOrWhiteSpace(details.firstName) && !String.IsNullOrWhiteSpace(details.familyName) && !String.IsNullOrWhiteSpace(details.email) && !String.IsNullOrWhiteSpace(details.phoneNumber) && !String.IsNullOrWhiteSpace(details.date) && !String.IsNullOrWhiteSpace(details.time)){
+				await AzureManager.AzureManagerInstance.makeOrder(details);
+				await DisplayAlert("Success" , "Your order send to the shop" , "Ok");
+				Application.Current.Properties.Remove("OrderArray");
+				await Navigation.PopModalAsync();
+			}
 		}
 
 		async void GetLocation() {
@@ -189,7 +194,10 @@ namespace Redmond
 			} else if (unit == 'N') {
 				dist = dist * 0.8684;
 			}
-			return (dist + 0.3);
+			if(dist > 1){
+				return (dist + 0.3);
+			}
+			return (dist);
 		}
 
 		private double deg2rad(double deg) {

@@ -9,7 +9,7 @@ namespace Redmond
 		public App()
 		{
 
-			MainPage = new NavigationPage(new initialPage()){BarBackgroundColor = Color.FromHex("#1259CD") , BarTextColor=Color.White };
+			MainPage = new NavigationPage(new GreetPage()){BarBackgroundColor = Color.FromHex("#1259CD") , BarTextColor=Color.White };
 		}
 
 		protected override void OnStart()

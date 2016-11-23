@@ -4,11 +4,11 @@ using Xamarin.Forms;
 
 namespace Redmond
 {
-	public class boxPage : ContentPage
+	public class OrdersBoxPage : ContentPage
 	{
 		List <FoodItem> orders = null;
 		ListView orderedItems;
-		public boxPage()
+		public OrdersBoxPage()
 		{
 			Title = "Orders Box";
 			Padding = new Thickness(5  , 5 , 5, 5);
@@ -125,7 +125,7 @@ namespace Redmond
 		async void MakeOrder_Clicked(object sender, EventArgs e)
 		{
 			if(orders.ToArray().Length > 0){
-				await Navigation.PushModalAsync(new modelOrderPage());
+				await Navigation.PushModalAsync(new OrderDetailsPage());
 				await Navigation.PopAsync();
 			}
 		}

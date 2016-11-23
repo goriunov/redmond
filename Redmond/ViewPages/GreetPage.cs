@@ -1,17 +1,16 @@
 ﻿using System;
-
 using Xamarin.Forms;
 
 namespace Redmond
 {
-	public class initialPage : ContentPage
+	public class GreetPage : ContentPage
 	{
 
 		Button navigationButton;
-		public initialPage()
+		public GreetPage()
 		{
 			BackgroundColor = Color.FromHex("#1259CD");
-			this.Title = "Welcome";
+			Title = "Welcome";
 			Device.OnPlatform(
 				iOS:()=>{
 				Padding = new Thickness(10,20,10,10);
@@ -23,7 +22,6 @@ namespace Redmond
 
 			navigationButton = new Button{
 				Text = "Start ordering",
-
 				FontSize = 20,
 				TextColor = Color.White,
 				BackgroundColor = Color.FromHex("#3E7EE7")
@@ -82,7 +80,7 @@ namespace Redmond
 			//	Price = "35"
 			//};
 			//await AzureManager.AzureManagerInstance.AddFood(oneFood);
-			await Navigation.PushAsync(new ordersListPage());
+			await Navigation.PushAsync(new MenuListPage());
 		}
 	}
 }

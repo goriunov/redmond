@@ -30,14 +30,14 @@
   <ItemGroup>
     <Compile Include="Redmond.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewPages\initialPage.cs" />
-    <Compile Include="ViewPages\ordersListPage.cs" />
+    <Compile Include="ViewPages\GreetPage.cs" />
+    <Compile Include="ViewPages\MenuListPage.cs" />
     <Compile Include="DataModels\FoodItem.cs" />
     <Compile Include="DbConnection\AzureMenager.cs" />
-    <Compile Include="ViewPages\detailPage.cs" />
-    <Compile Include="ViewPages\modelOrderPage.cs" />
-    <Compile Include="ViewPages\boxPage.cs" />
-    <Compile Include="DataModels\orderDetails.cs" />
+    <Compile Include="ViewPages\SingleFoodItemPage.cs" />
+    <Compile Include="ViewPages\OrderDetailsPage.cs" />
+    <Compile Include="ViewPages\OrdersBoxPage.cs" />
+    <Compile Include="DataModels\OrderDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

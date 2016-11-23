@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Redmond
 {
-	public class orderDetails
+	public class OrderDetails
 	{
 	
 		[JsonProperty(PropertyName= "Id")]

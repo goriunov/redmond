@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
 
 
 namespace Redmond
 {
-	public class ordersListPage : ContentPage
+	public class MenuListPage : ContentPage
 	{
 		public class Groups : ObservableCollection<FoodItem> {
 			public string longName{get; set;}
@@ -19,12 +18,12 @@ namespace Redmond
 		ListView foodList;
 		ActivityIndicator whileLoading;
 		StackLayout  mainStack;
-		public ordersListPage()
+		public MenuListPage()
 		{
 			Title = "Menu";
 			Padding = new Thickness(5 ,5 , 0, 0);
 			ToolbarItems.Add( new ToolbarItem("Box" ,"box.png", async () => {
-				await Navigation.PushAsync(new boxPage());
+				await Navigation.PushAsync(new OrdersBoxPage());
 			}));
 
 			getItems();
@@ -150,7 +149,7 @@ namespace Redmond
 		async void FoodList_ItemTapped(object sender, ItemTappedEventArgs e)
 		{
 			FoodItem item = (FoodItem)e.Item;
-			await Navigation.PushAsync(new detailPage(item));
+			await Navigation.PushAsync(new SingleFoodItemPage(item));
 		}
 	}
 }
